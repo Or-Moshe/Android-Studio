@@ -2,11 +2,9 @@ package com.example.obscalesraceapp.Models;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -16,12 +14,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.example.obscalesraceapp.Logic.GameManager;
 import com.example.obscalesraceapp.R;
 import com.google.android.material.imageview.ShapeableImageView;
-
 import java.util.Iterator;
 import java.util.Map;
 
@@ -31,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private final int DELAY_UPDATING_MATRIX = 1000;
     private final String WARNING_MSG = "Be Careful Body!";
     private final String FAILED_MSG = "Sorry Body, You Lose!";
-    private int images[] = {R.drawable.poop, R.drawable.toilet2};
     private final Handler handler_gen_obs = new Handler();
     private final Handler handler_upd_mat = new Handler();
 
     private GameManager gameManager;
-    private AppCompatImageView main_IMG_background;
+    //private AppCompatImageView main_IMG_background;
+    //private AppCompatImageView lose_IMG_background;
     private Button left_btn, right_btn;
+    private int images[];
+
     private ShapeableImageView[] heartsArr;
     private Runnable runnable_gen_obs;
     private Runnable runnable_upd_mat;
@@ -56,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.heart2_id),
                 findViewById(R.id.heart1_id)
         };
+        this.images = new int[]{
+                R.drawable.poop,
+                R.drawable.toilet
+        };
     }
 
     private void runnableLogic(){
@@ -69,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     ImageView new_image_view = findImageByTag(tag);
 
                     gameManager.addImageToMap(new_image_view, position);
-                    Map<String, ImageView> m =  gameManager.getPositionToImageMap();
-                    gameManager.setVisibility(new_image_view, ImageView.VISIBLE);
+                    gameManager.setVisibility(new_image_view, R.drawable.poop_png, ImageView.VISIBLE);
 
                     handler_gen_obs.postDelayed(this, DELAY_GENERATING_OBSTACLES);
                 }catch (Exception ex){
@@ -110,29 +110,51 @@ public class MainActivity extends AppCompatActivity {
 
             if(gameManager.isLastRow(obs_row)){
                 if(gameManager.isHit(old_position)){
-                    String msg = gameManager.getLife() == 0 ? FAILED_MSG : WARNING_MSG;
-                    vibrate();
-                    //killRunnables();
-                    removeHeart();
-                    showToast(msg, Toast.LENGTH_LONG);
-                    gameManager.cleanGame();
-                    //runnableLogic();
-                    if(gameManager.isGameEnded()){
-                        killRunnables();
-                        showToast(msg, Toast.LENGTH_LONG);
-                        showLoseImg();
-                        return;
-                    }
+                    hitLogic();
+                    return;
+                }else{
+                    positionToImageMap.remove(old_position);
                 }
             }else {
                 String new_position = (obs_row+1) * 10 + obs_col + "";
                 String new_tag = gameManager.getImageTag(new_position);
                 ImageView new_image_view = findImageByTag(new_tag);
                 gameManager.addImageToMap(new_image_view, new_position);
-                gameManager.replacePosition(old_position, new_position);
+                gameManager.replacePosition(old_position, new_position, R.drawable.poop_png);
             }
-            gameManager.setVisibility(old_image_view, ImageView.INVISIBLE);
+            gameManager.setVisibility(old_image_view, R.drawable.poop_png, ImageView.INVISIBLE);
+
         }
+    }
+
+    private void hitLogic(){
+        vibrate();
+        //killRunnables();
+        removeHeart();
+        gameManager.cleanGame();
+        String msg = gameManager.getLife() == 0 ? FAILED_MSG : WARNING_MSG;
+        if(gameManager.isGameEnded()){
+            killRunnables();
+            showToast(msg, Toast.LENGTH_LONG);
+            showLoseImg();
+        }else{
+            showToast(msg, Toast.LENGTH_LONG);
+            Log.d("getPositionToImageMap size", "map size: " + gameManager.getPositionToImageMap().size());
+            setStartPlayerPosition();
+            //runnableLogic();
+        }
+    }
+
+    private void setStartPlayerPosition(){
+        String old_player_position = gameManager.getPlayer_position();
+        String old_tag = gameManager.getImageTag(old_player_position);
+        ImageView old_image_view = findImageByTag(old_tag);
+        gameManager.setVisibility(old_image_view, R.drawable.toilet, ImageView.INVISIBLE);
+
+        String new_player_position = gameManager.getPlayer_position();
+        String new_tag = gameManager.getImageTag(new_player_position);
+        ImageView new_image_view = findImageByTag(new_tag);
+        gameManager.setVisibility(new_image_view, R.drawable.toilet, ImageView.VISIBLE);
     }
 
     private void vibrate(){
@@ -148,9 +170,8 @@ public class MainActivity extends AppCompatActivity {
     private void removeHeart(){
         int life = gameManager.decreaseLife();
         if(life >= 0){
-            this.heartsArr[life].setVisibility(ShapeableImageView.INVISIBLE);
+            gameManager.setVisibility(this.heartsArr[life], R.drawable.poop_png, ShapeableImageView.INVISIBLE);
         }
-
     }
 
     private void showToast(String msg, int time){
@@ -163,21 +184,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLoseImg(){
-        /*Glide
-                .with(this)
-                .load(R.drawable.poop)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(main_IMG_background);
-
         LinearLayout matrix_layout = (LinearLayout)findViewById(R.id.matrix_layout);
-        ImageView imageView = new ImageView(Context);
-        imageView.setImageResource(R.drawable.image_name);
+        //Glide.with(this).load(R.drawable.lose).fitCenter().into(viewTarget);
+        matrix_layout.setBackgroundResource(R.drawable.lose);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(layoutParams);
-
-        linearLayout.addView(imageView);*/
     }
     private ImageView findImageByTag(String tag) {
         LinearLayout matrix_layout = (LinearLayout)findViewById(R.id.matrix_layout);
@@ -199,12 +209,11 @@ public class MainActivity extends AppCompatActivity {
                 String tag = gameManager.getImageTag(player_position);
                 ImageView old_image_view = findImageByTag(tag);
 
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, "LEFT");
+                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, R.drawable.toilet, "LEFT");
                 String new_tag = gameManager.getImageTag(new_player_position);
                 ImageView new_image_view = findImageByTag(new_tag);
 
-                //gameManager.addImageToMap(new_image_view, new_player_position);
-                gameManager.replacePlayerPosition(old_image_view, new_image_view);
+                gameManager.replacePlayerPosition(old_image_view, new_image_view, R.drawable.toilet);
             }
         });
 
@@ -216,12 +225,11 @@ public class MainActivity extends AppCompatActivity {
                 String tag = gameManager.getImageTag(player_position);
                 ImageView old_image_view = findImageByTag(tag);
 
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, "RIGHT");
+                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, R.drawable.toilet, "RIGHT");
                 String new_tag = gameManager.getImageTag(new_player_position);
                 ImageView new_image_view = findImageByTag(new_tag);
 
-                //gameManager.addImageToMap(new_image_view, new_player_position);
-                gameManager.replacePlayerPosition(old_image_view, new_image_view);
+                gameManager.replacePlayerPosition(old_image_view, new_image_view, R.drawable.toilet);
             }
         });
     }
