@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_200"
-    tools:context=".Models.MainActivity">
+    tools:context=".View.MainActivity">
 
     <LinearLayout
         android:id="@+id/life_layout"
@@ -52,7 +52,7 @@
             android:tag="col_0_tag"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ImageView
@@ -119,6 +119,24 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.16"
                 android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_70_id"
+                android:tag="image_70_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_80_id"
+                android:tag="image_80_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
                 android:src="@drawable/toilet"
                 android:visibility="invisible"/>
         </LinearLayout>
@@ -127,7 +145,7 @@
             android:id="@+id/col_1_id"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ImageView
@@ -191,6 +209,24 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.16"
                 android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_71_id"
+                android:tag="image_71_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_81_id"
+                android:tag="image_81_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
                 android:src="@drawable/toilet"
                />
 
@@ -200,7 +236,7 @@
             android:id="@+id/col_2_id"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ImageView
@@ -264,10 +300,204 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.16"
                 android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_72_id"
+                android:tag="image_72_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/image_82_id"
+                android:tag="image_82_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
                 android:src="@drawable/toilet"
                 android:visibility="invisible"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/col_3_id"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_03_id"
+                android:tag="image_03_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_13_id"
+                android:tag="image_13_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_23_id"
+                android:tag="image_23_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_33_id"
+                android:tag="image_33_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_43_id"
+                android:tag="image_43_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_53_id"
+                android:tag="image_53_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_63_id"
+                android:tag="image_63_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_73_id"
+                android:tag="image_73_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/image_83_id"
+                android:tag="image_83_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:src="@drawable/toilet"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/col_4_id"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_04_id"
+                android:tag="image_04_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_14_id"
+                android:tag="image_14_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_24_id"
+                android:tag="image_24_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_34_id"
+                android:tag="image_34_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_44_id"
+                android:tag="image_44_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_54_id"
+                android:tag="image_54_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_64_id"
+                android:tag="image_64_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/image_74_id"
+                android:tag="image_74_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:visibility="invisible"/>
+            <ImageView
+                android:id="@+id/image_84_id"
+                android:tag="image_84_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.16"
+                android:scaleType="centerCrop"
+                android:src="@drawable/toilet"
+                android:visibility="invisible"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

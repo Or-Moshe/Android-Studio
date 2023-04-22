@@ -6,8 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GameManager {
 
-    private final int NUM_OF_COLS = 3;
-    private final int NUM_OF_ROWS = 7;
+    private final int NUM_OF_COLS = 5;
+    private final int NUM_OF_ROWS = 9;
     private Map<String, ImageView> positionToImageMap;
     private String player_position;
     private int life;
@@ -18,9 +18,14 @@ public class GameManager {
         this.life = 3;
     }
 
-    public String generateRandomObsPosition(int range){
+    public String generateRandomObsPosition(){
         Random rand = new Random();
-        return "0" + (rand.nextInt(range) % NUM_OF_COLS);
+        return "0" + rand.nextInt(NUM_OF_COLS);
+    }
+
+    public int getRandomInt(int range){
+        Random rand = new Random();
+        return rand.nextInt(range);
     }
 
     public boolean isLastRow(int obs_row){
@@ -63,8 +68,10 @@ public class GameManager {
     public void replacePosition(String old_position, String new_position, int resourceId){
         ImageView old_image_view = positionToImageMap.get(old_position);
         ImageView new_image_view = positionToImageMap.get(new_position);
+
         setVisibility(old_image_view, resourceId, ImageView.INVISIBLE);
         setVisibility(new_image_view, resourceId, ImageView.VISIBLE);
+
         positionToImageMap.remove(old_position);
         positionToImageMap.put(new_position, new_image_view);
     }
