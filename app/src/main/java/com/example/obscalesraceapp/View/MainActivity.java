@@ -3,6 +3,7 @@ package com.example.obscalesraceapp.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button left_btn, right_btn;
     private int images[];
 
+    private Drawable player_drawable;
     private ShapeableImageView[] heartsArr;
     private Runnable runnable_gen_obs;
     private Runnable runnable_upd_mat;
@@ -44,11 +46,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.gameManager = new GameManager();
+        this.player_drawable = getDrawable(R.drawable.toilet);
 
         String player_position = gameManager.getPlayer_position();
         String tag = gameManager.getImageTag(player_position);
         ImageView player_image = findImageByTag(tag);
-        gameManager.setVisibility(player_image, 0, ImageView.VISIBLE);
+        gameManager.setVisibility(player_image, player_drawable, ImageView.VISIBLE);
+
         buttonsLogic();
         runnableLogic();
 
@@ -58,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.heart1_id)
         };
         this.images = new int[]{
-                R.drawable.poop,
-                R.drawable.toilet
+                R.drawable.poop_png,
+                R.drawable.tampon
         };
     }
 
@@ -69,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String position = gameManager.generateRandomObsPosition(/*images.length*/);
+                    String position = gameManager.generateRandomObsPosition();
                     String tag = gameManager.getImageTag(position);
                     ImageView new_image_view = findImageByTag(tag);
 
+                    int rand_int = gameManager.generateRandomIntInRange(images.length);
+                    Drawable my_drawable = getDrawable(images[rand_int]);
                     gameManager.addImageToMap(new_image_view, position);
-                    gameManager.setVisibility(new_image_view, R.drawable.poop_png, ImageView.VISIBLE);
+                    gameManager.setVisibility(new_image_view, my_drawable, ImageView.VISIBLE);
 
                     handler_gen_obs.postDelayed(this, DELAY_GENERATING_OBSTACLES);
                 }catch (Exception ex){
@@ -109,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         while (iterator.hasNext()) {
             String old_position = iterator.next();
             ImageView old_image_view = positionToImageMap.get(old_position);
+            Drawable old_drawable = old_image_view.getDrawable();
             int obs_row = Integer.parseInt(old_position.substring(0, 1));
             int obs_col = Integer.parseInt(old_position.substring(1, 2));
 
@@ -124,9 +131,9 @@ public class MainActivity extends AppCompatActivity {
                 String new_tag = gameManager.getImageTag(new_position);
                 ImageView new_image_view = findImageByTag(new_tag);
                 gameManager.addImageToMap(new_image_view, new_position);
-                gameManager.replacePosition(old_position, new_position, R.drawable.poop_png);
+                gameManager.replacePosition(old_position, new_position, old_drawable);
             }
-            gameManager.setVisibility(old_image_view, R.drawable.poop_png, ImageView.INVISIBLE);
+            gameManager.setVisibility(old_image_view, old_drawable, ImageView.INVISIBLE);
 
         }
     }
@@ -153,12 +160,13 @@ public class MainActivity extends AppCompatActivity {
         String old_player_position = gameManager.getPlayer_position();
         String old_tag = gameManager.getImageTag(old_player_position);
         ImageView old_image_view = findImageByTag(old_tag);
-        gameManager.setVisibility(old_image_view, R.drawable.toilet, ImageView.INVISIBLE);
+        Drawable old_drawable = old_image_view.getDrawable();
+        gameManager.setVisibility(old_image_view, old_drawable, ImageView.INVISIBLE);
 
         String new_player_position = gameManager.getPlayer_position();
         String new_tag = gameManager.getImageTag(new_player_position);
         ImageView new_image_view = findImageByTag(new_tag);
-        gameManager.setVisibility(new_image_view, R.drawable.toilet, ImageView.VISIBLE);
+        gameManager.setVisibility(new_image_view, old_drawable, ImageView.VISIBLE);
     }
 
     private void vibrate(){
@@ -174,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private void removeHeart(){
         int life = gameManager.decreaseLife();
         if(life >= 0){
-            gameManager.setVisibility(this.heartsArr[life], R.drawable.poop_png, ShapeableImageView.INVISIBLE);
+            gameManager.setVisibility(this.heartsArr[life], null, ShapeableImageView.INVISIBLE);
         }
     }
 
@@ -213,11 +221,11 @@ public class MainActivity extends AppCompatActivity {
                 String tag = gameManager.getImageTag(player_position);
                 ImageView old_image_view = findImageByTag(tag);
 
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, R.drawable.toilet, "LEFT");
+                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "LEFT");
                 String new_tag = gameManager.getImageTag(new_player_position);
                 ImageView new_image_view = findImageByTag(new_tag);
 
-                gameManager.replacePlayerPosition(old_image_view, new_image_view, R.drawable.toilet);
+                gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
             }
         });
 
@@ -229,11 +237,11 @@ public class MainActivity extends AppCompatActivity {
                 String tag = gameManager.getImageTag(player_position);
                 ImageView old_image_view = findImageByTag(tag);
 
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, R.drawable.toilet, "RIGHT");
+                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "RIGHT");
                 String new_tag = gameManager.getImageTag(new_player_position);
                 ImageView new_image_view = findImageByTag(new_tag);
 
-                gameManager.replacePlayerPosition(old_image_view, new_image_view, R.drawable.toilet);
+                gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
             }
         });
     }

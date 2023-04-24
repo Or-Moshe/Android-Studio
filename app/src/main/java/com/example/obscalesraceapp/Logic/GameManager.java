@@ -1,4 +1,5 @@
 package com.example.obscalesraceapp.Logic;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import java.util.Map;
 import java.util.Random;
@@ -23,6 +24,10 @@ public class GameManager {
         return "0" + rand.nextInt(NUM_OF_COLS);
     }
 
+    public int generateRandomIntInRange(int range){
+        Random rand = new Random();
+        return rand.nextInt(range);
+    }
     public boolean isLastRow(int obs_row){
         return obs_row == NUM_OF_ROWS - 1;
     }
@@ -33,10 +38,10 @@ public class GameManager {
         return obs_col == player_col;
     }
 
-    public String getNewPlayerPosition(ImageView imageView, int resourceId, String dir){
+    public String getNewPlayerPosition(ImageView imageView, Drawable myDrawable, String dir){
         int col = Integer.parseInt(player_position.substring(1,2));
         int row = NUM_OF_ROWS - 1;
-        setVisibility(imageView, resourceId, ImageView.INVISIBLE);
+        setVisibility(imageView, myDrawable, ImageView.INVISIBLE);
         player_position = dir == "LEFT" ? getLeftPositionClicked(col, row) : getRightPositionClicked(col, row);
         return player_position;
     }
@@ -60,40 +65,40 @@ public class GameManager {
         return positionToImageMap;
     }
 
-    public void replacePosition(String old_position, String new_position, int resourceId){
+    public void replacePosition(String old_position, String new_position, Drawable myDrawable){
         ImageView old_image_view = positionToImageMap.get(old_position);
         ImageView new_image_view = positionToImageMap.get(new_position);
 
-        setVisibility(old_image_view, resourceId, ImageView.INVISIBLE);
-        setVisibility(new_image_view, resourceId, ImageView.VISIBLE);
+        setVisibility(old_image_view, myDrawable, ImageView.INVISIBLE);
+        setVisibility(new_image_view, myDrawable, ImageView.VISIBLE);
 
         positionToImageMap.remove(old_position);
         positionToImageMap.put(new_position, new_image_view);
     }
 
-    public void replacePlayerPosition(ImageView old_image_view, ImageView new_image_view, int resourceId){
-        setVisibility(old_image_view, resourceId, ImageView.INVISIBLE);
-        setVisibility(new_image_view, resourceId, ImageView.VISIBLE);
+    public void replacePlayerPosition(ImageView old_image_view, ImageView new_image_view, Drawable myDrawable){
+        setVisibility(old_image_view, myDrawable, ImageView.INVISIBLE);
+        setVisibility(new_image_view, myDrawable, ImageView.VISIBLE);
     }
 
     public void cleanGame(){
         for (String position : positionToImageMap.keySet()) {
             ImageView imgView = positionToImageMap.get(position);
             if(position != (NUM_OF_ROWS - 1) * 10 + NUM_OF_COLS - 1 + ""){
-                setVisibility(imgView, 0, ImageView.INVISIBLE);
+                setVisibility(imgView, null, ImageView.INVISIBLE);
             }
         }
         this.positionToImageMap = new ConcurrentHashMap<>();
         this.player_position = (NUM_OF_ROWS - 1)*10 + NUM_OF_COLS / 2 + "";
     }
 
-    public void setVisibility(ImageView imageView, int resourceId, int visibility){
+    public void setVisibility(ImageView imageView, Drawable myDrawable, int visibility){
         if(imageView == null){
             //do something
             return;
         }
-        if(resourceId != 0){
-            imageView.setImageResource(resourceId);
+        if(myDrawable != null){
+            imageView.setImageDrawable(myDrawable);
         }
         imageView.setVisibility(visibility);
     }
