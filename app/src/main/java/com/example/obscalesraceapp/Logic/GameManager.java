@@ -23,11 +23,6 @@ public class GameManager {
         return "0" + rand.nextInt(NUM_OF_COLS);
     }
 
-    public int getRandomInt(int range){
-        Random rand = new Random();
-        return rand.nextInt(range);
-    }
-
     public boolean isLastRow(int obs_row){
         return obs_row == NUM_OF_ROWS - 1;
     }

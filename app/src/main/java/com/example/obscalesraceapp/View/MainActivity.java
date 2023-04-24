@@ -1,7 +1,7 @@
-package com.example.obscalesraceapp.Models;
+package com.example.obscalesraceapp.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
+
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.gameManager = new GameManager();
 
+        String player_position = gameManager.getPlayer_position();
+        String tag = gameManager.getImageTag(player_position);
+        ImageView player_image = findImageByTag(tag);
+        gameManager.setVisibility(player_image, 0, ImageView.VISIBLE);
         buttonsLogic();
         runnableLogic();
 
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String position = gameManager.generateRandomObsPosition(images.length);
+                    String position = gameManager.generateRandomObsPosition(/*images.length*/);
                     String tag = gameManager.getImageTag(position);
                     ImageView new_image_view = findImageByTag(tag);
 

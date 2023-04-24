@@ -228,6 +228,7 @@
                 android:layout_weight="0.16"
                 android:scaleType="centerCrop"
                 android:src="@drawable/toilet"
+                android:visibility="invisible"
                />
 
         </LinearLayout>
