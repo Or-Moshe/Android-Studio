@@ -18,8 +18,13 @@ import android.widget.Toast;
 import com.example.obscalesraceapp.Logic.GameManager;
 import com.example.obscalesraceapp.R;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Button left_btn, right_btn;
     private int images[];
 
+    private Set<Drawable> coinsSet;
     private Drawable player_drawable;
     private ShapeableImageView[] heartsArr;
     private Runnable runnable_gen_obs;
@@ -65,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.poop_png,
                 R.drawable.tampon
         };
+
+        this.coinsSet = new HashSet<Drawable>();
+        coinsSet.add(getDrawable(R.drawable.tampon));
+
     }
 
     private void runnableLogic(){
@@ -118,13 +128,19 @@ public class MainActivity extends AppCompatActivity {
             Drawable old_drawable = old_image_view.getDrawable();
             int obs_row = Integer.parseInt(old_position.substring(0, 1));
             int obs_col = Integer.parseInt(old_position.substring(1, 2));
-
             if(gameManager.isLastRow(obs_row)){
                 if(gameManager.isHit(old_position)){
-                    hitLogic();
-                    return;
+                    if(gameManager.isCoin(old_drawable, coinsSet)){
+                        //is coin
+                        isCoinLogic();
+                        positionToImageMap.remove(old_position);
+                    }else{
+                        hitLogic();
+                        return;
+                    }
                 }else{
                     positionToImageMap.remove(old_position);
+                    gameManager.setVisibility(old_image_view, old_drawable, ImageView.INVISIBLE);
                 }
             }else {
                 String new_position = (obs_row+1) * 10 + obs_col + "";
@@ -132,10 +148,18 @@ public class MainActivity extends AppCompatActivity {
                 ImageView new_image_view = findImageByTag(new_tag);
                 gameManager.addImageToMap(new_image_view, new_position);
                 gameManager.replacePosition(old_position, new_position, old_drawable);
+                gameManager.setVisibility(old_image_view, old_drawable, ImageView.INVISIBLE);
             }
-            gameManager.setVisibility(old_image_view, old_drawable, ImageView.INVISIBLE);
-
         }
+    }
+
+    private void isCoinLogic(){
+        String player_position = gameManager.getPlayer_position();
+        String player_tag = gameManager.getImageTag(player_position);
+        ImageView player_image_view = findImageByTag(player_tag);
+        gameManager.setVisibility(player_image_view, player_drawable, ImageView.VISIBLE);
+
+        gameManager.addScore();
     }
 
     private void hitLogic(){

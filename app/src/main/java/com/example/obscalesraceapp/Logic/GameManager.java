@@ -1,8 +1,12 @@
 package com.example.obscalesraceapp.Logic;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
+
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GameManager {
@@ -11,12 +15,14 @@ public class GameManager {
     private final int NUM_OF_ROWS = 9;
     private Map<String, ImageView> positionToImageMap;
     private String player_position;
-    private int life;
+    private int life, score, level;
 
     public GameManager() {
         this.positionToImageMap = new ConcurrentHashMap<>();
         this.player_position = (NUM_OF_ROWS - 1)*10 + NUM_OF_COLS / 2 + "";
         this.life = 3;
+        this.score = 0;
+        this.level = 1;
     }
 
     public String generateRandomObsPosition(){
@@ -36,6 +42,15 @@ public class GameManager {
         int obs_col = Integer.parseInt(obs_position) % 10;
         int player_col = Integer.parseInt(player_position) % 10;
         return obs_col == player_col;
+    }
+
+    public Boolean isCoin(Drawable current_drawable, Set<Drawable> coinsSet){
+        for (Drawable coin : coinsSet) {
+            if(current_drawable.getConstantState().equals(coin.getConstantState())){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getNewPlayerPosition(ImageView imageView, Drawable myDrawable, String dir){
@@ -115,6 +130,13 @@ public class GameManager {
         return this.life;
     }
 
+    public int getScore() {
+        return this.life;
+    }
+
+    public void addScore(){
+        this.score += (100 * this.level);
+    }
     public String getPlayer_position(){
 
         return this.player_position;
