@@ -3,6 +3,7 @@ package com.example.obscalesraceapp.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.example.obscalesraceapp.Logic.GameManager;
 import com.example.obscalesraceapp.R;
+import com.example.obscalesraceapp.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.Arrays;
@@ -170,8 +173,10 @@ public class MainActivity extends AppCompatActivity {
         String msg = gameManager.getLife() == 0 ? FAILED_MSG : WARNING_MSG;
         if(gameManager.isGameEnded()){
             killRunnables();
+            calculateScore();
             showToast(msg, Toast.LENGTH_LONG);
             showLoseImg();
+            showScoresTable();
         }else{
             showToast(msg, Toast.LENGTH_LONG);
             Log.d("getPositionToImageMap size", "map size: " + gameManager.getPositionToImageMap().size());
@@ -214,6 +219,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
+    private void calculateScore(){
+        int score = gameManager.getScore();
+        String player_name = "Or The King";
+        int rank = 1;
+        DataManager.getInstance().addScoreItem(player_name, score, rank);
+    }
     private void killRunnables(){
         handler_upd_mat.removeCallbacks(runnable_upd_mat);
         handler_gen_obs.removeCallbacks(runnable_gen_obs);
@@ -223,8 +234,14 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout matrix_layout = (LinearLayout)findViewById(R.id.matrix_layout);
         //Glide.with(this).load(R.drawable.lose).fitCenter().into(viewTarget);
         matrix_layout.setBackgroundResource(R.drawable.lose);
-
     }
+
+    private void showScoresTable(){
+        Intent myIntent = new Intent(MainActivity.this, ScoreTableActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        startActivity(myIntent);
+    }
+
     private ImageView findImageByTag(String tag) {
         LinearLayout matrix_layout = (LinearLayout)findViewById(R.id.matrix_layout);
         ImageView image_view = matrix_layout.findViewWithTag(tag);

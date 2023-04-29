@@ -20,7 +20,7 @@ public class GameManager {
     public GameManager() {
         this.positionToImageMap = new ConcurrentHashMap<>();
         this.player_position = (NUM_OF_ROWS - 1)*10 + NUM_OF_COLS / 2 + "";
-        this.life = 3;
+        this.life = 1;
         this.score = 0;
         this.level = 1;
     }
@@ -131,7 +131,7 @@ public class GameManager {
     }
 
     public int getScore() {
-        return this.life;
+        return this.score;
     }
 
     public void addScore(){

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="4dp"
+    android:elevation="8dp"
+    app:cardElevation="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/player_profile_img"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/player_name_LBL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/player_profile_img"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="name:"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/player_score_LBL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/player_name_LBL"
+            android:layout_toEndOf="@id/player_profile_img"
+            android:layout_marginStart="20dp"
+            android:maxLines="1"
+            android:minLines="1"
+            android:text="Score:"
+            android:textSize="16sp" />
+
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/crown_yellow"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:scaleType="centerCrop"
+            android:layout_alignEnd="@id/player_score_LBL"
+            app:srcCompat="@drawable/crown_yellow" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/player_rank_LBL"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignEnd="@id/crown_yellow"
+            android:layout_alignParentTop="true"
+            android:text="Rank"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
