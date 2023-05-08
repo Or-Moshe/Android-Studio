@@ -15,19 +15,23 @@
         android:theme="@style/Theme.ObscalesRaceApp"
         tools:targetApi="31">
         <activity
-            android:name=".ScoreTableActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Adapter.ScoreTableAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".View.MainActivity"
-            android:exported="true">
-            <intent-filter>
+            android:name=".View.LoginActivity"
+            android:exported="true" >
+            <intent-filter> <!-- describe which activity will open first -->
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".View.ScoreTableActivity"
+            android:exported="true" /> <!-- <activity -->
+        <!-- android:name=".Adapter.ScoreTableAdapter" -->
+        <!-- android:exported="true" /> -->
+        <activity
+            android:name=".View.MainActivity"
+            android:exported="true">
+
         </activity>
     </application>
 

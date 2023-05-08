@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.example.obscalesraceapp.Logic.GameManager;
+import com.example.obscalesraceapp.Models.ScoreItem;
+import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -220,10 +222,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculateScore(){
-        int score = gameManager.getScore();
-        String player_name = "Or The King";
         int rank = 1;
-        DataManager.getInstance().addScoreItem(player_name, score, rank);
+        UserInfo current_user = App.getCurrent_user();
+        ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), gameManager.getScore(), rank);
+        DataManager.getInstance().addScoreItem(scoreItem);
     }
     private void killRunnables(){
         handler_upd_mat.removeCallbacks(runnable_upd_mat);

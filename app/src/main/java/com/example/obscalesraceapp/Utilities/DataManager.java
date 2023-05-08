@@ -1,16 +1,20 @@
 package com.example.obscalesraceapp.Utilities;
 
 import com.example.obscalesraceapp.Models.ScoreItem;
+import com.example.obscalesraceapp.Models.UserInfo;
 
 import java.util.ArrayList;
 
 public class DataManager {
 
     private static DataManager INSTANCE;
-    ArrayList<ScoreItem> scores;
+    private ArrayList<ScoreItem> scores;
+    private ArrayList<UserInfo> users;
 
     private DataManager() {
+
         this.scores = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     public static DataManager getInstance() {
@@ -24,7 +28,15 @@ public class DataManager {
         return scores;
     }
 
-    public void addScoreItem(String player_name, int score, int rank){
-        this.scores.add(new ScoreItem(player_name, score, rank));
+    public ArrayList<UserInfo> getUsers(){
+        return users;
+    }
+
+    public void addScoreItem(ScoreItem scoreItem){
+        this.scores.add(scoreItem);
+    }
+
+    public void addUser(UserInfo current_user){
+        this.users.add(current_user);
     }
 }
