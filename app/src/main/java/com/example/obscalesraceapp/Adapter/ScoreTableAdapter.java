@@ -34,10 +34,10 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
     @Override
     public void onBindViewHolder(@NonNull ScoreItemViewHolder holder, int position) {
         ScoreItem scoreItem = getItem(position);
-        //holder.player_profile_img.
         holder.player_name_LBL.setText(scoreItem.getPlayer_name());
-        holder.player_score_LBL.setText(scoreItem.getScore());
-        holder.player_rank_LBL.setText(scoreItem.getRank());
+        holder.player_score_LBL.setText(""+scoreItem.getScore());
+        holder.player_rank_LBL.setText(""+scoreItem.getRank());
+        holder.player_profile_img.setImageResource(scoreItem.getPlayer_res_img());
     }
 
     @Override
@@ -51,16 +51,16 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
 
     public class ScoreItemViewHolder extends RecyclerView.ViewHolder {
 
-        private ShapeableImageView player_profile_img;
-        private MaterialTextView player_name_LBL;
-        private MaterialTextView player_score_LBL;
-        private MaterialTextView player_rank_LBL;
+        private final ShapeableImageView player_profile_img;
+        private final MaterialTextView player_name_LBL;
+        private final MaterialTextView player_score_LBL;
+        private final MaterialTextView player_rank_LBL;
 
         public ScoreItemViewHolder(@NonNull View itemView) {
             super(itemView);
             this.player_profile_img = itemView.findViewById(R.id.player_profile_img);
-            this.player_name_LBL = itemView.findViewById(R.id.player_profile_img);
-            this.player_score_LBL = itemView.findViewById(R.id.player_name_LBL);
+            this.player_name_LBL = itemView.findViewById(R.id.player_name_LBL);
+            this.player_score_LBL = itemView.findViewById(R.id.player_score_LBL);
             this.player_rank_LBL = itemView.findViewById(R.id.player_rank_LBL);
         }
     }
