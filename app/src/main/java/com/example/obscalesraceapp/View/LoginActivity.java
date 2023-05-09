@@ -77,11 +77,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         UserInfo current_user = new UserInfo(user_name_val, icons[0]);
+        // need to ask tom
+        /*
         App.setCurrent_user(current_user);
-        DataManager.getInstance().addUser(current_user);
+        DataManager.getInstance().addUser(current_user);*/
+        Intent myIntent = new Intent(LoginActivity.this, MenuActivityActivity.class);
+        //myIntent.putExtra("current_user", current_user); //Optional parameters
 
-        Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
         startActivity(myIntent);
     }
 

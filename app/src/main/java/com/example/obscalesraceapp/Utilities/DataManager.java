@@ -24,6 +24,8 @@ public class DataManager {
         return INSTANCE;
     }
 
+
+
     public ArrayList<ScoreItem> getScores(){
         return scores;
     }

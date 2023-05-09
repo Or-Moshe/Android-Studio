@@ -4,4 +4,13 @@
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="login">login</string>
+    <string name="submit">submit</string>
+    <string name="new_game">new game</string>
+    <string name="new_user">new user</string>
+    <string name="easy_mode">easy mode</string>
+    <string name="hard_mode">hard mode</string>
+    <string name="sensors_mode">sensors mode</string>
+    <string name="arrows_mode">arrows mode</string>
+    <string name="choose_speed">choose speed</string>
+    <string name="choose_sensor">choose sensor</string>
 </resources>

@@ -5,11 +5,50 @@
     android:layout_height="match_parent"
     tools:context=".View.ScoreTableActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_LST_scores"
+    <LinearLayout
+        android:id="@+id/scores_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        tools:listitem="@layout/score_item"
-        />
+        android:layout_marginBottom="100dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_LST_scores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/score_item"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/arrows_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="3dp">
+
+        <Button
+            android:id="@+id/new_user_btn"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/new_user"
+            android:textColor="#3e2723"
+            android:onClick="newUserClicked"/>
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/new_game_btn"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="@string/new_user"
+            android:textColor="#3e2723"
+            android:onClick="newGameClicked"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

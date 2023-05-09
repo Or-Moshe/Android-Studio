@@ -19,19 +19,19 @@
             android:exported="true" >
             <intent-filter> <!-- describe which activity will open first -->
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".View.ScoreTableActivity"
-            android:exported="true" /> <!-- <activity -->
-        <!-- android:name=".Adapter.ScoreTableAdapter" -->
-        <!-- android:exported="true" /> -->
+            android:exported="true" />
         <activity
             android:name=".View.MainActivity"
             android:exported="true">
-
+        </activity>
+        <activity
+            android:name=".View.MenuActivityActivity"
+            android:exported="true">
         </activity>
     </application>
 

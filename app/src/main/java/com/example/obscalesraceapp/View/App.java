@@ -12,6 +12,7 @@ public class App extends Application {
         return current_user;
     }
     public static void setCurrent_user(UserInfo current_user) {
+
         current_user = current_user;
     }
 }

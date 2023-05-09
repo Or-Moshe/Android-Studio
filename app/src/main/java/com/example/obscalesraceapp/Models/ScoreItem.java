@@ -2,11 +2,13 @@ package com.example.obscalesraceapp.Models;
 
 public class ScoreItem {
 
+    private int player_res_img;
     private String player_name;
     private int score;
     private int rank;
 
-    public ScoreItem(String player_name, int score, int rank) {
+    public ScoreItem(int player_res_img, String player_name, int score, int rank) {
+        this.player_res_img = player_res_img;
         this.player_name = player_name;
         this.score = score;
         this.rank = rank;
@@ -34,6 +36,14 @@ public class ScoreItem {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public int getPlayer_res_img() {
+        return player_res_img;
+    }
+
+    public void setPlayer_res_img(int player_res_img) {
+        this.player_res_img = player_res_img;
     }
 
     @Override

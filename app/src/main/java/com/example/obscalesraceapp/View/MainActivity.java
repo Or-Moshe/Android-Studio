@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.obscalesraceapp.Logic.GameManager;
 import com.example.obscalesraceapp.Models.ScoreItem;
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final int DELAY_GENERATING_OBSTACLES = 4000;
     private final int DELAY_UPDATING_MATRIX = 1000;
-    private final String WARNING_MSG = "Be Careful Body!";
-    private final String FAILED_MSG = "Sorry Body, You Lose!";
+    private final String WARNING_MSG = "Be Careful Body!", FAILED_MSG = "Sorry Body, You Lose!";
+    private String sensors_mode, level_mode;
     private final Handler handler_gen_obs = new Handler();
     private final Handler handler_upd_mat = new Handler();
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     //private AppCompatImageView main_IMG_background;
     //private AppCompatImageView lose_IMG_background;
     private Button left_btn, right_btn;
+    private TextView score_text;
     private int images[];
 
     private Set<Drawable> coinsSet;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView player_image = findImageByTag(tag);
         gameManager.setVisibility(player_image, player_drawable, ImageView.VISIBLE);
 
+        findViews();
         buttonsLogic();
         runnableLogic();
 
@@ -80,6 +83,19 @@ public class MainActivity extends AppCompatActivity {
         this.coinsSet = new HashSet<Drawable>();
         coinsSet.add(getDrawable(R.drawable.tampon));
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //this.runnable_gen_obs.wait();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //this.runnable_gen_obs.wait();
     }
 
     private void runnableLogic(){
@@ -164,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView player_image_view = findImageByTag(player_tag);
         gameManager.setVisibility(player_image_view, player_drawable, ImageView.VISIBLE);
 
-        gameManager.addScore();
+        score_text.setText(""+gameManager.addScore());
     }
 
     private void hitLogic(){
@@ -223,7 +239,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateScore(){
         int rank = 1;
-        UserInfo current_user = App.getCurrent_user();
+        UserInfo current_user = new UserInfo("or", R.drawable.wolf_eyeglasses);
+        //UserInfo current_user = App.getCurrent_user();
         ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), gameManager.getScore(), rank);
         DataManager.getInstance().addScoreItem(scoreItem);
     }
@@ -251,6 +268,10 @@ public class MainActivity extends AppCompatActivity {
             throw new RuntimeException("image not found" + " tag: " + tag);
         }
         return (ImageView)matrix_layout.findViewWithTag(tag);
+    }
+
+    private void findViews(){
+        this.score_text = (TextView)findViewById(R.id.score);
     }
 
     private void buttonsLogic(){
