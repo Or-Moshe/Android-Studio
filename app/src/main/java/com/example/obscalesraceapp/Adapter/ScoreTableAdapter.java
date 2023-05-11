@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.ScoreItemViewHolder> {
 
-    private ScoreItem[] scores;
+    private ArrayList<ScoreItem> scores;
 
-    public ScoreTableAdapter(ScoreItem[] scores) {
+    public ScoreTableAdapter(ArrayList<ScoreItem> scores) {
         this.scores = scores;
     }
 
@@ -44,11 +44,11 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
 
     @Override
     public int getItemCount() {
-        return this.scores == null ? 0 : this.scores.length;
+        return this.scores == null ? 0 : this.scores.size();
     }
 
     private ScoreItem getItem(int position){
-        return this.scores == null ? null : this.scores[position];
+        return this.scores == null ? null : this.scores.get(position);
     }
 
     public class ScoreItemViewHolder extends RecyclerView.ViewHolder {
