@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ObscalesRaceApp</string>
+    <string name="preference_file_key">obstacles_shared_pref</string>
+    <string name="scoresList_sp">scoresList</string>
     <string name="user_name">User Name</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>

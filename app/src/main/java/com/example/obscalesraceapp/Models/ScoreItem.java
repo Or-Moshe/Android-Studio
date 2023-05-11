@@ -1,6 +1,6 @@
 package com.example.obscalesraceapp.Models;
 
-public class ScoreItem {
+public class ScoreItem implements Comparable<ScoreItem>{
 
     private int player_res_img;
     private String player_name;
@@ -53,5 +53,12 @@ public class ScoreItem {
                 ", score=" + score +
                 ", rank=" + rank +
                 '}';
+    }
+    @Override
+    public int compareTo(ScoreItem scoreItem) {
+        if(scoreItem == null){
+            return this.score;
+        }
+        return this.score - scoreItem.getScore();
     }
 }

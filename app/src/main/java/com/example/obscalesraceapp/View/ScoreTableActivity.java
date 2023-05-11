@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.obscalesraceapp.Adapter.ScoreTableAdapter;
+import com.example.obscalesraceapp.Models.ScoreItem;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
 
@@ -17,6 +18,7 @@ public class ScoreTableActivity extends AppCompatActivity {
 
     private RecyclerView main_LST_scores;
     private Button new_game_btn, new_user_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

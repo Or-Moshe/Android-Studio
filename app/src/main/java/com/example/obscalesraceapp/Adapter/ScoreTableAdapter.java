@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.ScoreItemViewHolder> {
 
-    private ArrayList<ScoreItem> scores;
+    private ScoreItem[] scores;
 
-    public ScoreTableAdapter(ArrayList<ScoreItem> scores) {
+    public ScoreTableAdapter(ScoreItem[] scores) {
         this.scores = scores;
     }
 
@@ -34,19 +34,21 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
     @Override
     public void onBindViewHolder(@NonNull ScoreItemViewHolder holder, int position) {
         ScoreItem scoreItem = getItem(position);
-        holder.player_name_LBL.setText(scoreItem.getPlayer_name());
-        holder.player_score_LBL.setText(""+scoreItem.getScore());
-        holder.player_rank_LBL.setText(""+scoreItem.getRank());
-        holder.player_profile_img.setImageResource(scoreItem.getPlayer_res_img());
+        if(scoreItem != null){
+            holder.player_name_LBL.setText(scoreItem.getPlayer_name());
+            holder.player_score_LBL.setText(""+scoreItem.getScore());
+            holder.player_rank_LBL.setText(""+scoreItem.getRank());
+            holder.player_profile_img.setImageResource(scoreItem.getPlayer_res_img());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return this.scores == null ? 0 : this.scores.size();
+        return this.scores == null ? 0 : this.scores.length;
     }
 
     private ScoreItem getItem(int position){
-        return this.scores == null ? null : this.scores.get(position);
+        return this.scores == null ? null : this.scores[position];
     }
 
     public class ScoreItemViewHolder extends RecyclerView.ViewHolder {

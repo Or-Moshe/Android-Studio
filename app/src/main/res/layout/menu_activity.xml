@@ -123,12 +123,13 @@
     </RelativeLayout>
 
     <Button
+        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sensors_layout"
         android:layout_centerInParent="true"
         android:text="@string/submit"
-        android:onClick="submit">
+        android:onClick="onSubmit">
 
     </Button>
 </RelativeLayout>

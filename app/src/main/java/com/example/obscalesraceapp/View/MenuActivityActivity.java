@@ -3,7 +3,9 @@ package com.example.obscalesraceapp.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -16,6 +18,7 @@ import com.example.obscalesraceapp.R;
 public class MenuActivityActivity extends AppCompatActivity {
 
     private RadioGroup radioGroup_speed, radioGroup_sensor;
+    private Button submit_btn;
     private String level_mode, sensors_mode;
 
     @Override
@@ -45,9 +48,15 @@ public class MenuActivityActivity extends AppCompatActivity {
                 // on below line we are displaying a toast message.
             }
         });
+        this.submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                onSubmit();
+            }
+        });
     }
 
-    public void submit(){
+    public void onSubmit(){
         Intent myIntent = new Intent(MenuActivityActivity.this, MainActivity.class);
         myIntent.putExtra("sensors_mode", sensors_mode);
         myIntent.putExtra("level_mode", level_mode);
@@ -57,5 +66,6 @@ public class MenuActivityActivity extends AppCompatActivity {
     private void findViews(){
         this.radioGroup_speed = (RadioGroup) findViewById(R.id.radioGroup_speed);
         this.radioGroup_sensor = (RadioGroup) findViewById(R.id.radioGroup_sensor);
+        this.submit_btn = (Button) findViewById(R.id.submit);
     }
 }

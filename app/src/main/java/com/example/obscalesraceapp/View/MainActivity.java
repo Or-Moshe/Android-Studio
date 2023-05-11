@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         UserInfo current_user = new UserInfo("or", R.drawable.wolf_eyeglasses);
         //UserInfo current_user = App.getCurrent_user();
         ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), gameManager.getScore(), rank);
-        DataManager.getInstance().addScoreItem(scoreItem);
+        DataManager.getInstance().writeScoreToSP(scoreItem);
     }
     private void killRunnables(){
         handler_upd_mat.removeCallbacks(runnable_upd_mat);
