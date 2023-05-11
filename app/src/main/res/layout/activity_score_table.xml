@@ -45,10 +45,9 @@
             android:layout_width="180dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:text="@string/new_user"
+            android:text="@string/back_to_menu_page"
             android:textColor="#3e2723"
-            android:onClick="newGameClicked"/>
-
+            android:onClick="backToMenuPageClicked"/>
     </LinearLayout>
 
 </RelativeLayout>
