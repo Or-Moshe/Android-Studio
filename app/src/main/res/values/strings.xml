@@ -16,4 +16,5 @@
     <string name="arrows_mode">arrows mode</string>
     <string name="choose_speed">choose speed</string>
     <string name="choose_sensor">choose sensor</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

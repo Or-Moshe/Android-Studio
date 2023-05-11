@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,11 +24,13 @@ import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
+import android.media.MediaPlayer;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private ShapeableImageView[] heartsArr;
     private Runnable runnable_gen_obs;
     private Runnable runnable_upd_mat;
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void isCoinLogic(){
+        doHittingSound(R.raw.toilet_flush, 1.0f,1.0f);
         String player_position = gameManager.getPlayer_position();
         String player_tag = gameManager.getImageTag(player_position);
         ImageView player_image_view = findImageByTag(player_tag);
@@ -184,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void hitLogic(){
+        doHittingSound(R.raw.toilet_flushingmp3, 1.0f,1.0f);
         vibrate();
         //killRunnables();
         removeHeart();
@@ -216,6 +221,11 @@ public class MainActivity extends AppCompatActivity {
         gameManager.setVisibility(new_image_view, old_drawable, ImageView.VISIBLE);
     }
 
+    private void doHittingSound(int rowId, float leftVolume, float rightVolume){
+        mediaPlayer = MediaPlayer.create(this, rowId);
+        mediaPlayer.setVolume(leftVolume, rightVolume);
+        mediaPlayer.start();
+    }
     private void vibrate(){
         // Vibrate for 500 milliseconds
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -256,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showScoresTable(){
         Intent myIntent = new Intent(MainActivity.this, ScoreTableActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
+        myIntent.putExtra("current_user_json", current_user_json); //Optional parameters
         startActivity(myIntent);
     }
 
