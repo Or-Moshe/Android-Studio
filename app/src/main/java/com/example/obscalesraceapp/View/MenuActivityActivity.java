@@ -21,11 +21,14 @@ public class MenuActivityActivity extends AppCompatActivity {
     private Button submit_btn;
     private String level_mode, sensors_mode;
 
+    private String current_user_json;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
+        setParamsFromAnotherIntent();
         findViews();
         // on below line we are adding check change listener for our radio group.
         radioGroup_speed.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -60,9 +63,13 @@ public class MenuActivityActivity extends AppCompatActivity {
         Intent myIntent = new Intent(MenuActivityActivity.this, MainActivity.class);
         myIntent.putExtra("sensors_mode", sensors_mode);
         myIntent.putExtra("level_mode", level_mode);
+        myIntent.putExtra("current_user_json", current_user_json);
         startActivity(myIntent);
     }
 
+    private void setParamsFromAnotherIntent(){
+        this.current_user_json = getIntent().getStringExtra("current_user_json");
+    }
     private void findViews(){
         this.radioGroup_speed = (RadioGroup) findViewById(R.id.radioGroup_speed);
         this.radioGroup_sensor = (RadioGroup) findViewById(R.id.radioGroup_sensor);

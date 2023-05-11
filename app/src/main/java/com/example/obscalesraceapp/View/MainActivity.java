@@ -24,9 +24,8 @@ import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private final int DELAY_GENERATING_OBSTACLES = 4000;
     private final int DELAY_UPDATING_MATRIX = 1000;
     private final String WARNING_MSG = "Be Careful Body!", FAILED_MSG = "Sorry Body, You Lose!";
-    private String sensors_mode, level_mode;
+    private String sensors_mode, level_mode, current_user_json;
     private final Handler handler_gen_obs = new Handler();
     private final Handler handler_upd_mat = new Handler();
 
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView player_image = findImageByTag(tag);
         gameManager.setVisibility(player_image, player_drawable, ImageView.VISIBLE);
 
+        setParamsFromAnotherIntent();
         findViews();
         buttonsLogic();
         runnableLogic();
@@ -239,8 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void calculateScore(){
         int rank = 1;
-        UserInfo current_user = new UserInfo("or", R.drawable.wolf_eyeglasses);
-        //UserInfo current_user = App.getCurrent_user();
+        UserInfo current_user = new Gson().fromJson(current_user_json, UserInfo.class);
         ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), gameManager.getScore(), rank);
         DataManager.getInstance().writeScoreToSP(scoreItem);
     }
@@ -308,5 +307,9 @@ public class MainActivity extends AppCompatActivity {
                 gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
             }
         });
+    }
+
+    private void setParamsFromAnotherIntent(){
+        this.current_user_json = getIntent().getStringExtra("current_user_json");
     }
 }

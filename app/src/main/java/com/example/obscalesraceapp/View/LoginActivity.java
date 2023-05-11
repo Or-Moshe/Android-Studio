@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -76,14 +77,9 @@ public class LoginActivity extends AppCompatActivity {
             //do something
             return;
         }
-        UserInfo current_user = new UserInfo(user_name_val, icons[0]);
-        // need to ask tom
-        /*
-        App.setCurrent_user(current_user);
-        DataManager.getInstance().addUser(current_user);*/
+        String current_user_json = new Gson().toJson(new UserInfo(user_name_val, icons[0]));
         Intent myIntent = new Intent(LoginActivity.this, MenuActivityActivity.class);
-        //myIntent.putExtra("current_user", current_user); //Optional parameters
-
+        myIntent.putExtra("current_user_json", current_user_json);
         startActivity(myIntent);
     }
 
