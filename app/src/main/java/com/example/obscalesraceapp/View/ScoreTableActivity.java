@@ -14,6 +14,9 @@ import com.example.obscalesraceapp.Models.ScoreItem;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class ScoreTableActivity extends AppCompatActivity {
 
     private RecyclerView main_LST_scores;
@@ -50,7 +53,8 @@ public class ScoreTableActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        ScoreTableAdapter scoreTableAdapter = new ScoreTableAdapter(DataManager.getInstance().getScores());
+        ArrayList<ScoreItem> records = (ArrayList<ScoreItem>)DataManager.getInstance().getScores().stream().limit(10).collect(Collectors.toList());
+        ScoreTableAdapter scoreTableAdapter = new ScoreTableAdapter(records);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         this.main_LST_scores.setAdapter(scoreTableAdapter);
