@@ -40,7 +40,7 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
             @Override
             public void onClick(View view) {
                 if (onClickListener != null) {
-                    onClickListener.onClick(position, scoreItem);
+                    onClickListener.onClick(holder.getAdapterPosition(), scoreItem);
                 }
             }
         });
@@ -49,6 +49,7 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
             holder.player_score_LBL.setText(""+scoreItem.getScore());
             holder.player_rank_LBL.setText(""+scoreItem.getRank());
             holder.player_profile_img.setImageResource(scoreItem.getPlayer_res_img());
+            holder.icon_img.setImageResource(scoreItem.getIcon_res_img());
         }
     }
 
@@ -74,6 +75,7 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
         private final MaterialTextView player_name_LBL;
         private final MaterialTextView player_score_LBL;
         private final MaterialTextView player_rank_LBL;
+        private final ShapeableImageView icon_img;
 
         public ScoreItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,6 +83,7 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
             this.player_name_LBL = itemView.findViewById(R.id.player_name_LBL);
             this.player_score_LBL = itemView.findViewById(R.id.player_score_LBL);
             this.player_rank_LBL = itemView.findViewById(R.id.player_rank_LBL);
+            this.icon_img = itemView.findViewById(R.id.icon);
         }
     }
 }

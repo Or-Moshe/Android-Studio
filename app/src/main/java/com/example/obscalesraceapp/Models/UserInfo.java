@@ -1,5 +1,7 @@
 package com.example.obscalesraceapp.Models;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class UserInfo {
@@ -14,6 +16,15 @@ public class UserInfo {
         this.latLng = latLng;
     }
 
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+
     public String getName() {
         return name;
     }
@@ -24,14 +35,6 @@ public class UserInfo {
 
     public int getIcon() {
         return icon;
-    }
-
-    public LatLng getLatLng() {
-        return latLng;
-    }
-
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
     }
 
     public void setIcon(int icon) {

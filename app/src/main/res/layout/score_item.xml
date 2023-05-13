@@ -50,7 +50,7 @@
 
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/crown_yellow"
+            android:id="@+id/icon"
             android:layout_width="30dp"
             android:layout_height="20dp"
             android:scaleType="centerCrop"
@@ -62,7 +62,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_alignEnd="@id/crown_yellow"
+            android:layout_alignEnd="@id/icon"
             android:layout_alignParentTop="true"
             android:text="Rank"
             android:textSize="16sp" />

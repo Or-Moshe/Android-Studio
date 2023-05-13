@@ -29,11 +29,15 @@ import com.google.android.gms.tasks.Task;
 
 public class MapFragment extends Fragment {
 
-    private FusedLocationProviderClient client;
-    private Location currentLocation;
-    SupportMapFragment supportMapFragment;
+    private SupportMapFragment supportMapFragment;
     //initialize marker options
-    MarkerOptions markerOptions = new MarkerOptions();
+    private MarkerOptions markerOptions = new MarkerOptions();
+    private GoogleMap googleMap;
+    private LatLng latLng;
+
+    public MapFragment(LatLng latLng){
+        this.latLng = latLng;
+    }
 
     @Nullable
     @Override
@@ -45,40 +49,22 @@ public class MapFragment extends Fragment {
         //initialze map fragment
         supportMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.google_map);
-
-        client = LocationServices.getFusedLocationProviderClient(getActivity());
-        asyncMap();
-/*
-        //check permission
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //when permission grated
-            //call method
-            Task<Location> task = client.getLastLocation();
-            task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    if(location != null){
-                        asyncMap();
-                    }
-                }
-            });
-        }*/
+        //LatLng latLng = new LatLng(/* 31.955100735125836, 34.803954184130575*/);
+        asyncMap(latLng);
 
         return view;
     }
 
-    private void asyncMap(){
+    public void asyncMap(LatLng latLng){
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
+            public void onMapReady(@NonNull GoogleMap googleMap1) {
                 //when map is loaded
-                LatLng latLng = new LatLng(/*currentLocation.getLatitude(), currentLocation.getLongitude()*/ 31.955100735125836, 34.803954184130575);
-
+                googleMap = googleMap1;
 
 
                 //set current position of marker
                 markerOptions.position(latLng);
-
 
                 //set title of marker
                 markerOptions.title("I Am Here");
@@ -96,7 +82,7 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onMapClick(@NonNull LatLng latLng) {
                         //when clicked on map
-                        setNewPosition(googleMap, latLng);
+                        setNewPosition(latLng);
 
                     }
                 });
@@ -104,7 +90,11 @@ public class MapFragment extends Fragment {
         });
     }
 
-    public void setNewPosition(GoogleMap googleMap, LatLng latLng){
+    public void zoomToMarker(LatLng latLng) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+    }
+
+    public void setNewPosition(LatLng latLng){
         //set position of marker
         markerOptions.position(latLng);
 
@@ -120,7 +110,6 @@ public class MapFragment extends Fragment {
         ));
         //add marker on map
         googleMap.addMarker(markerOptions);
-
     }
 }
 

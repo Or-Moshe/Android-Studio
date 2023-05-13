@@ -14,8 +14,11 @@ import android.widget.Button;
 import com.example.obscalesraceapp.Adapter.ScoreTableAdapter;
 import com.example.obscalesraceapp.Fragments.MapFragment;
 import com.example.obscalesraceapp.Models.ScoreItem;
+import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -25,16 +28,18 @@ public class ScoreTableActivity extends AppCompatActivity {
     private RecyclerView main_LST_scores;
     private Button backToMenuPageClicked, new_user_btn;
     private String current_user_json;
+    private Fragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table);
 
-        initMap();
         setParamsFromAnotherIntent();
         findViews();
         initViews();
+        UserInfo userInfo = new Gson().fromJson(this.current_user_json, UserInfo.class);
+        initMap(userInfo.getLatLng());
 
         this.backToMenuPageClicked.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,14 +56,14 @@ public class ScoreTableActivity extends AppCompatActivity {
         });
     }
 
-    private void initMap(){
+    private void initMap(LatLng latLng){
         //initialize fragment
-        Fragment fragment = new MapFragment();
+        mapFragment = new MapFragment(latLng);
 
         //open fragment
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+                .replace(R.id.frame_layout, mapFragment)
                 .commit();
 
     }
@@ -83,6 +88,7 @@ public class ScoreTableActivity extends AppCompatActivity {
                 // Passing the data to the
                 // EmployeeDetails Activity
                 Log.d("onClick", "onClick: " + scoreItem);
+                initMap(scoreItem.getLatLng());
             }
         });
     }

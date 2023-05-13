@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //get last location if there are permissions
-            permissionManager.getLastLocation();
+            permissionManager.setLastLocation();
             permissionManager.checkSettingsAndStartLocationUpdates();
         } else {
             permissionManager.askLocationPermission();
@@ -93,9 +93,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-
-
     private void findViews(){
         this.user_name_text = (TextView)findViewById(R.id.user_name);
         this.registerNewUser = (TextView)findViewById(R.id.registerNewUser);
@@ -108,7 +105,9 @@ public class LoginActivity extends AppCompatActivity {
             //do something
             return;
         }
-        String current_user_json = new Gson().toJson(new UserInfo(user_name_val, icons[0], getCurrentLocation()));
+
+        Location lastLocation = permissionManager.getLast_location();
+        String current_user_json = new Gson().toJson(new UserInfo(user_name_val, icons[0], new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())));
         Intent myIntent = new Intent(LoginActivity.this, MenuActivityActivity.class);
         myIntent.putExtra("current_user_json", current_user_json);
         startActivity(myIntent);
@@ -117,12 +116,6 @@ public class LoginActivity extends AppCompatActivity {
     public void registerNewUser(){
         TextView registerNewUser = (TextView)findViewById(R.id.registerNewUser);
         registerNewUser.setVisibility(TextView.INVISIBLE);
-    }
-
-    private LatLng getCurrentLocation(){
-        Location lastLocation = permissionManager.getLastLocation();
-        Log.d("getCurrentLocation", "getCurrentLocation: " + lastLocation.getLatitude() + lastLocation.getLongitude());
-        return new LatLng(1.955100735125836, 34.803954184130575);
     }
 
     private void enableLogicBtn(Boolean isEnabled){

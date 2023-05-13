@@ -1,8 +1,9 @@
 package com.example.obscalesraceapp.Utilities;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
@@ -41,7 +42,7 @@ public class PermissionManager extends AppCompatActivity {
     private Location last_location;
     private LocationRequest locationRequest;
     private final int LOCATION_REQUEST_CODE = 10001;
-    private  Context context;
+    private Context context;
 
     public PermissionManager(Context cont){
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(cont);
@@ -63,6 +64,21 @@ public class PermissionManager extends AppCompatActivity {
             }
         }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+                setLastLocation();
+                checkSettingsAndStartLocationUpdates();
+            } else {
+                //Permission not granted
+                showLocationAlert("Application must use device location.\nPlease allow it.\n");
+            }
+        }
+    }
+
 
     public void checkSettingsAndStartLocationUpdates() {
         //Specifies the types of location services the client is interested in using.
@@ -89,7 +105,11 @@ public class PermissionManager extends AppCompatActivity {
         });
     }
 
-    public Location getLastLocation() {
+    public Location getLast_location(){
+        return last_location;
+    }
+
+    public void setLastLocation() {
         if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -98,7 +118,7 @@ public class PermissionManager extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return null;
+            return;
         }
         Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
         locationTask.addOnSuccessListener(location -> {
@@ -107,7 +127,7 @@ public class PermissionManager extends AppCompatActivity {
                 last_location = location;
             }
         });
-        return last_location;
+        Log.d("last_location", "setLastLocation: " + last_location);
     }
 
     private void startLocationUpdates(Context context) {
@@ -122,5 +142,21 @@ public class PermissionManager extends AppCompatActivity {
             return;
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    private void showLocationAlert(String msg) {
+        new AlertDialog.Builder(this)
+                .setTitle("Device location")
+                .setMessage(msg)
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

@@ -50,6 +50,7 @@ public class DataManager {
     public void writeScoreToSP(ScoreItem scoreItem){
         this.scores.add(scoreItem);
         Collections.sort(this.scores);
+        setRanks();
         String scores_json = new Gson().toJson(this.scores);
         Log.d("write JSON", scores_json);
 
@@ -63,6 +64,15 @@ public class DataManager {
         return new Gson().fromJson(scores_json, listType);
     }
 
+    private void setRanks(){
+        for (int i = 0; i < this.scores.size(); i++) {
+            ScoreItem scoreItem = this.scores.get(i);
+            scoreItem.setRank(i+1);
+            if(i == 0 || i == 1){
+                scoreItem.setIcon_res_img(R.drawable.crown_yellow);
+            }
+        }
+    }
     private void putString(String key, String value) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(key, value);

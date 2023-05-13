@@ -1,5 +1,7 @@
 package com.example.obscalesraceapp.Models;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class ScoreItem implements Comparable<ScoreItem>{
@@ -9,6 +11,7 @@ public class ScoreItem implements Comparable<ScoreItem>{
     private int score;
     private LatLng latLng;
     private int rank;
+    private int icon_res_img;
 
     public ScoreItem(int player_res_img, String player_name, LatLng latLng, int score, int rank) {
         this.player_res_img = player_res_img;
@@ -16,6 +19,22 @@ public class ScoreItem implements Comparable<ScoreItem>{
         this.latLng = latLng;
         this.score = score;
         this.rank = rank;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+    public int getIcon_res_img() {
+        return icon_res_img;
+    }
+
+    public void setIcon_res_img(int icon_res_img) {
+        this.icon_res_img = icon_res_img;
     }
 
     public String getPlayer_name() {
@@ -53,11 +72,14 @@ public class ScoreItem implements Comparable<ScoreItem>{
     @Override
     public String toString() {
         return "ScoreItem{" +
-                "player_name='" + player_name + '\'' +
+                "player_res_img=" + player_res_img +
+                ", player_name='" + player_name + '\'' +
                 ", score=" + score +
+                ", latLng=" + latLng +
                 ", rank=" + rank +
                 '}';
     }
+
     @Override
     public int compareTo(ScoreItem scoreItem) {
         return scoreItem.getScore() - this.score;
