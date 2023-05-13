@@ -2,8 +2,11 @@ package com.example.obscalesraceapp;
 
 import android.app.Application;
 
+import com.example.obscalesraceapp.Models.ScoreItem;
 import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.Utilities.DataManager;
+
+import java.util.ArrayList;
 
 public class App extends Application {
 
@@ -12,6 +15,7 @@ public class App extends Application {
         super.onCreate();
 
         DataManager.init(this);
-        DataManager.getInstance().setScores(DataManager.getInstance().readScoresFromSP());
+        ArrayList<ScoreItem> scores = DataManager.getInstance().readScoresFromSP();
+        DataManager.getInstance().setScores(scores != null ? scores : new ArrayList<>());
     }
 }

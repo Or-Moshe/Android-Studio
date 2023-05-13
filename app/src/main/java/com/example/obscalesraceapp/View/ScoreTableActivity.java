@@ -1,6 +1,7 @@
 package com.example.obscalesraceapp.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.obscalesraceapp.Adapter.ScoreTableAdapter;
+import com.example.obscalesraceapp.Fragments.MapFragment;
 import com.example.obscalesraceapp.Models.ScoreItem;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
@@ -28,6 +30,7 @@ public class ScoreTableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_table);
 
+        initMap();
         setParamsFromAnotherIntent();
         findViews();
         initViews();
@@ -47,6 +50,17 @@ public class ScoreTableActivity extends AppCompatActivity {
         });
     }
 
+    private void initMap(){
+        //initialize fragment
+        Fragment fragment = new MapFragment();
+
+        //open fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
+
+    }
     private void findViews() {
         this.main_LST_scores = (RecyclerView)findViewById(R.id.main_LST_scores);
         this.backToMenuPageClicked = (Button)findViewById(R.id.new_game_btn);

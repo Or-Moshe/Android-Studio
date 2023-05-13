@@ -1,12 +1,19 @@
 package com.example.obscalesraceapp.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +23,11 @@ import android.widget.TextView;
 import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,6 +40,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logic_activity);
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            return;
+
+        }
 
         findViews();
         this.icons = new int[]{
@@ -77,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             //do something
             return;
         }
-        String current_user_json = new Gson().toJson(new UserInfo(user_name_val, icons[0]));
+        String current_user_json = new Gson().toJson(new UserInfo(user_name_val, icons[0], getCurrentLocation()));
         Intent myIntent = new Intent(LoginActivity.this, MenuActivityActivity.class);
         myIntent.putExtra("current_user_json", current_user_json);
         startActivity(myIntent);
@@ -86,6 +109,10 @@ public class LoginActivity extends AppCompatActivity {
     public void registerNewUser(){
         TextView registerNewUser = (TextView)findViewById(R.id.registerNewUser);
         registerNewUser.setVisibility(TextView.INVISIBLE);
+    }
+
+    private LatLng getCurrentLocation(){
+        return new LatLng(1.955100735125836, 34.803954184130575);
     }
 
     private void enableLogicBtn(Boolean isEnabled){

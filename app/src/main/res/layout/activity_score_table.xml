@@ -8,8 +8,7 @@
     <LinearLayout
         android:id="@+id/scores_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="100dp">
+        android:layout_height="500dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_LST_scores"
@@ -49,5 +48,14 @@
             android:textColor="#3e2723"
             android:onClick="backToMenuPageClicked"/>
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/scores_layout"
+        android:layout_above="@+id/arrows_layout">
+
+    </FrameLayout>
 
 </RelativeLayout>

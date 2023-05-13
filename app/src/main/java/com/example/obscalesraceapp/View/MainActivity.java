@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.heart1_id)
         };
         this.images = new int[]{
-                R.drawable.poop_png,
-                R.drawable.tampon
+                R.drawable.poop_png/*,
+                R.drawable.tampon*/
         };
 
         this.coinsSet = new HashSet<Drawable>();
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     advanceObs();
                     handler_upd_mat.postDelayed(this, DELAY_UPDATING_MATRIX);       //Do it again in a second
                 }catch (Exception ex){
-                    Log.d("Exeption in runnable_upd_mat", "run: " + ex.getMessage() + ex.getCause());
+                    Log.d("Exeption in runnable_upd_mat", "run: " + ex.getMessage() + ex.getCause() + ex.getStackTrace());
                 }
             }
         };
