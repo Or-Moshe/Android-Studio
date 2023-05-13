@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.ScoreItemViewHolder> {
 
     private ArrayList<ScoreItem> scores;
+    private ScoreTableAdapter.OnClickListener onClickListener;
 
     public ScoreTableAdapter(ArrayList<ScoreItem> scores) {
         this.scores = scores;
@@ -34,6 +36,14 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
     @Override
     public void onBindViewHolder(@NonNull ScoreItemViewHolder holder, int position) {
         ScoreItem scoreItem = getItem(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickListener != null) {
+                    onClickListener.onClick(position, scoreItem);
+                }
+            }
+        });
         if(scoreItem != null){
             holder.player_name_LBL.setText(scoreItem.getPlayer_name());
             holder.player_score_LBL.setText(""+scoreItem.getScore());
@@ -42,6 +52,13 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
         }
     }
 
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, ScoreItem scoreItem);
+    }
     @Override
     public int getItemCount() {
         return this.scores == null ? 0 : this.scores.size();

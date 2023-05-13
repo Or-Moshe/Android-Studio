@@ -1,15 +1,19 @@
 package com.example.obscalesraceapp.Models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class ScoreItem implements Comparable<ScoreItem>{
 
     private int player_res_img;
     private String player_name;
     private int score;
+    private LatLng latLng;
     private int rank;
 
-    public ScoreItem(int player_res_img, String player_name, int score, int rank) {
+    public ScoreItem(int player_res_img, String player_name, LatLng latLng, int score, int rank) {
         this.player_res_img = player_res_img;
         this.player_name = player_name;
+        this.latLng = latLng;
         this.score = score;
         this.rank = rank;
     }

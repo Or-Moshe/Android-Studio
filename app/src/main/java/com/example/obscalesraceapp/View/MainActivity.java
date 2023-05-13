@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
     private void calculateScore(){
         int rank = 1;
         UserInfo current_user = new Gson().fromJson(current_user_json, UserInfo.class);
-        ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), gameManager.getScore(), rank);
+        ScoreItem scoreItem = new ScoreItem(current_user.getIcon(), current_user.getName(), current_user.getLatLng(), gameManager.getScore(), rank);
         DataManager.getInstance().writeScoreToSP(scoreItem);
     }
     private void killRunnables(){

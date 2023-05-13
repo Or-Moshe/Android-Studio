@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -74,6 +75,16 @@ public class ScoreTableActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         this.main_LST_scores.setAdapter(scoreTableAdapter);
         this.main_LST_scores.setLayoutManager(linearLayoutManager);
+
+        // Applying OnClickListener to our Adapter
+        scoreTableAdapter.setOnClickListener(new ScoreTableAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, ScoreItem scoreItem) {
+                // Passing the data to the
+                // EmployeeDetails Activity
+                Log.d("onClick", "onClick: " + scoreItem);
+            }
+        });
     }
 
     private void onBackToMenuPageClicked(){
