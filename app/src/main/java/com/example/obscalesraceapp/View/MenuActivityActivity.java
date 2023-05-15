@@ -38,6 +38,9 @@ public class MenuActivityActivity extends AppCompatActivity {
                 // on below line we are getting radio button from our group.
                 RadioButton radioButton = findViewById(checkedId);
                 level_mode = (String)radioButton.getText();
+                if(sensors_mode != null){
+                    enableLogicBtn(true);
+                }
             }
         });
 
@@ -48,6 +51,9 @@ public class MenuActivityActivity extends AppCompatActivity {
                 // on below line we are getting radio button from our group.
                 RadioButton radioButton = findViewById(checkedId);
                 sensors_mode = (String)radioButton.getText();
+                if(level_mode != null){
+                    enableLogicBtn(true);
+                }
                 // on below line we are displaying a toast message.
             }
         });
@@ -74,5 +80,9 @@ public class MenuActivityActivity extends AppCompatActivity {
         this.radioGroup_speed = (RadioGroup) findViewById(R.id.radioGroup_speed);
         this.radioGroup_sensor = (RadioGroup) findViewById(R.id.radioGroup_sensor);
         this.submit_btn = (Button) findViewById(R.id.submit);
+    }
+
+    private void enableLogicBtn(Boolean isEnabled){
+        this.submit_btn.setEnabled(isEnabled);
     }
 }
