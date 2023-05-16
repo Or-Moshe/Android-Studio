@@ -28,13 +28,10 @@ import com.google.gson.Gson;
 public class LoginActivity extends AppCompatActivity {
 
     private int icons[];
-    private TextView registerNewUser, user_name_text;
+    private TextView user_name_text;
     private Button login_btn;
     private PermissionManager permissionManager;
 
-    public LoginActivity(){
-        //permissionManager = new PermissionManager(this);
-    }
     //onCreate() is called when the when the activity is first created. onStart() is called when the activity is becoming visible to the user.
     @Override
     protected void onStart() {
@@ -62,13 +59,6 @@ public class LoginActivity extends AppCompatActivity {
 
         setListenerForTextView(this.user_name_text);
 
-        this.registerNewUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                registerNewUser();
-            }
-        });
-
         this.login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -95,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void findViews(){
         this.user_name_text = (TextView)findViewById(R.id.user_name);
-        this.registerNewUser = (TextView)findViewById(R.id.registerNewUser);
         this.login_btn = (Button) findViewById(R.id.login_btn);
     }
     public void onLoginClick(){
@@ -111,11 +100,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent myIntent = new Intent(LoginActivity.this, MenuActivityActivity.class);
         myIntent.putExtra("current_user_json", current_user_json);
         startActivity(myIntent);
-    }
-
-    public void registerNewUser(){
-        TextView registerNewUser = (TextView)findViewById(R.id.registerNewUser);
-        registerNewUser.setVisibility(TextView.INVISIBLE);
     }
 
     private void enableLogicBtn(Boolean isEnabled){
