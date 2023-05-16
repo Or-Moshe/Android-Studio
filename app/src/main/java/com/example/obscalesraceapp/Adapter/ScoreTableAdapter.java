@@ -49,7 +49,9 @@ public class ScoreTableAdapter extends RecyclerView.Adapter<ScoreTableAdapter.Sc
             holder.player_score_LBL.setText(""+scoreItem.getScore());
             holder.player_rank_LBL.setText(""+scoreItem.getRank());
             holder.player_profile_img.setImageResource(scoreItem.getPlayer_res_img());
-            holder.icon_img.setImageResource(scoreItem.getIcon_res_img());
+            if(scoreItem.getRank() == 1 ){
+                holder.icon_img.setImageResource(scoreItem.getIcon_res_img());
+            }
         }
     }
 

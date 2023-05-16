@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(this.sensors_mode ==  getString(R.string.sensors_mode)){
+        if(this.sensors_mode.equals(getString(R.string.sensors_mode))){
             this.stepDetector.stop();
         }
         //this.runnable_gen_obs.wait();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(this.sensors_mode ==  getString(R.string.sensors_mode)){
+        if(this.sensors_mode.equals(getString(R.string.sensors_mode))){
             this.stepDetector.start();
         }
         //this.runnable_gen_obs.wait();
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleLevelMode() {
-        if(this.level_mode == getString(R.string.easy_mode)){
+        if(this.level_mode.equals(getString(R.string.easy_mode))){
             this.DELAY_GENERATING_OBSTACLES = 4000;
             this.images = new int[]{
                     R.drawable.poop_png,
