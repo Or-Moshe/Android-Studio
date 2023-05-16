@@ -142,6 +142,7 @@ public class GameManager {
 
         return this.player_position;
     }
+
     public boolean isGameEnded() {
         return this.life == 0;
     }

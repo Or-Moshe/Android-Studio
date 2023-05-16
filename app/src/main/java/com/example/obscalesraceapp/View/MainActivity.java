@@ -8,20 +8,25 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.obscalesraceapp.Interfaces.StepCallback;
 import com.example.obscalesraceapp.Logic.GameManager;
 import com.example.obscalesraceapp.Models.ScoreItem;
 import com.example.obscalesraceapp.Models.UserInfo;
 import com.example.obscalesraceapp.R;
 import com.example.obscalesraceapp.Utilities.DataManager;
+import com.example.obscalesraceapp.Utilities.StepDetector;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import android.media.MediaPlayer;
@@ -34,7 +39,7 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int DELAY_GENERATING_OBSTACLES = 4000;
+    private int DELAY_GENERATING_OBSTACLES = 4000;
     private final int DELAY_UPDATING_MATRIX = 1000;
     private final String WARNING_MSG = "Be Careful Body!", FAILED_MSG = "Sorry Body, You Lose!";
     private String sensors_mode, level_mode, current_user_json;
@@ -42,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private final Handler handler_upd_mat = new Handler();
 
     private GameManager gameManager;
-    //private AppCompatImageView main_IMG_background;
-    //private AppCompatImageView lose_IMG_background;
     private Button left_btn, right_btn;
     private TextView score_text;
     private int images[];
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     private Runnable runnable_upd_mat;
 
     private MediaPlayer mediaPlayer;
+
+    private StepDetector stepDetector;
+
+    private Chronometer chronometer;
+    private Long pauseOffset = 0L;
+    private Boolean isChronometerRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,29 +77,37 @@ public class MainActivity extends AppCompatActivity {
         ImageView player_image = findImageByTag(tag);
         gameManager.setVisibility(player_image, player_drawable, ImageView.VISIBLE);
 
-        setParamsFromAnotherIntent();
-        findViews();
-        buttonsLogic();
-        runnableLogic();
-
         this.heartsArr = new ShapeableImageView[]{
                 findViewById(R.id.heart3_id),
                 findViewById(R.id.heart2_id),
                 findViewById(R.id.heart1_id)
         };
-        this.images = new int[]{
-                R.drawable.poop_png/*,
-                R.drawable.tampon*/
-        };
+
+        setParamsFromAnotherIntent();
+        findViews();
+        handleLevelMode();
+        startChronometer();
+        if(this.sensors_mode.equals(getString(R.string.arrows_mode))){
+            showHideButtons(View.VISIBLE);
+            buttonsLogic();
+        }else{
+            showHideButtons(View.INVISIBLE);
+            sensorsLogic();
+;        }
+
+        runnableLogic();
 
         this.coinsSet = new HashSet<Drawable>();
-        coinsSet.add(getDrawable(R.drawable.tampon));
+        coinsSet.add(getDrawable(R.drawable.poop_png));
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        if(this.sensors_mode ==  getString(R.string.sensors_mode)){
+            this.stepDetector.stop();
+        }
         //this.runnable_gen_obs.wait();
 
     }
@@ -98,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(this.sensors_mode ==  getString(R.string.sensors_mode)){
+            this.stepDetector.start();
+        }
         //this.runnable_gen_obs.wait();
     }
 
@@ -280,9 +300,91 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findViews(){
+        this.chronometer = (Chronometer) findViewById(R.id.chronometer);
         this.score_text = (TextView)findViewById(R.id.score);
     }
 
+    private void startChronometer(){
+        if(!isChronometerRunning){
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            chronometer.start();
+            isChronometerRunning = true;
+        }
+    }
+
+    private void pauseChronometer(){
+        if(isChronometerRunning){
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            isChronometerRunning = false;
+        }
+    }
+
+    private void resetChronometer(View v){
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        pauseOffset = 0L;
+    }
+
+    private void showHideButtons(Integer visible){
+        findViewById(R.id.arrow_btn_left_id).setVisibility(visible);
+        findViewById(R.id.arrow_btn_right_id).setVisibility(visible);
+    }
+
+    private void sensorsLogic() {
+        stepDetector = new StepDetector(this, new StepCallback() {
+            @Override
+            public void stepYRight() {
+                rightLogic();
+            }
+
+            @Override
+            public void stepYLeft() {
+                leftLogic();
+            }
+        });
+    }
+
+    private void handleLevelMode() {
+        if(this.level_mode == getString(R.string.easy_mode)){
+            this.DELAY_GENERATING_OBSTACLES = 4000;
+            this.images = new int[]{
+                    R.drawable.poop_png,
+                    R.drawable.tampon
+            };
+
+        }else{
+            this.DELAY_GENERATING_OBSTACLES = 2000;
+            this.images = new int[]{
+                    R.drawable.poop_png,
+                    R.drawable.tampon,
+                    R.drawable.paper
+            };
+        }
+    }
+
+    private void leftLogic(){
+        String player_position = gameManager.getPlayer_position();
+        String tag = gameManager.getImageTag(player_position);
+        ImageView old_image_view = findImageByTag(tag);
+
+        String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "LEFT");
+        String new_tag = gameManager.getImageTag(new_player_position);
+        ImageView new_image_view = findImageByTag(new_tag);
+
+        gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
+    }
+
+    private void rightLogic(){
+        String player_position = gameManager.getPlayer_position();
+        String tag = gameManager.getImageTag(player_position);
+        ImageView old_image_view = findImageByTag(tag);
+
+        String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "RIGHT");
+        String new_tag = gameManager.getImageTag(new_player_position);
+        ImageView new_image_view = findImageByTag(new_tag);
+
+        gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
+    }
     private void buttonsLogic(){
         this.left_btn = findViewById(R.id.arrow_btn_left_id);
         this.right_btn = findViewById(R.id.arrow_btn_right_id);
@@ -290,15 +392,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                String player_position = gameManager.getPlayer_position();
-                String tag = gameManager.getImageTag(player_position);
-                ImageView old_image_view = findImageByTag(tag);
-
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "LEFT");
-                String new_tag = gameManager.getImageTag(new_player_position);
-                ImageView new_image_view = findImageByTag(new_tag);
-
-                gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
+                leftLogic();
             }
         });
 
@@ -306,20 +400,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                String player_position = gameManager.getPlayer_position();
-                String tag = gameManager.getImageTag(player_position);
-                ImageView old_image_view = findImageByTag(tag);
-
-                String new_player_position = gameManager.getNewPlayerPosition(old_image_view, player_drawable, "RIGHT");
-                String new_tag = gameManager.getImageTag(new_player_position);
-                ImageView new_image_view = findImageByTag(new_tag);
-
-                gameManager.replacePlayerPosition(old_image_view, new_image_view, player_drawable);
+                rightLogic();
             }
         });
     }
 
     private void setParamsFromAnotherIntent(){
         this.current_user_json = getIntent().getStringExtra("current_user_json");
+        this.sensors_mode = getIntent().getStringExtra("sensors_mode");
+        this.level_mode = getIntent().getStringExtra("level_mode");
     }
+
 }
